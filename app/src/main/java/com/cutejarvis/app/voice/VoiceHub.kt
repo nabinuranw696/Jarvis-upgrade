@@ -138,7 +138,7 @@ object VoiceHub {
     /** Service callbacks */
     fun attachWake() {
         if (wakeEngine == null) {
-            wakeEngine = VoskWakeEngine(app, onWake = { onWakeWord() }, onStatus = { setWakeStatus(it) })
+            wakeEngine = VoskWakeEngine(app, onWake = { onWakeWord() }, onStatus = { postWakeStatus(it) })
         }
         wakeRunning = true
         applySettings()
@@ -161,7 +161,7 @@ object VoiceHub {
     fun wakeAutoOff() { scope.launch { store.update { it.copy(wakeWordEnabled = false) } } }
     /** Called by the ViewModel around a phone action so the UI/notification show EXECUTING during a voice turn. */
     fun executing(on: Boolean) { if (sessionCreated) { if (on) session.actionStarted() else session.actionFinished() } }
-    fun setWakeStatus(msg: String) { wakeStatus = msg; WakeWordService.refresh() }
+    fun postWakeStatus(msg: String) { wakeStatus = msg; WakeWordService.refresh() }
 
     private fun onWakeWord() {
         WakeWordService.touch()

@@ -65,7 +65,7 @@ class WakeWordService : Service() {
                 else startForeground(NOTIF_ID, build())
                 foregroundOk = true
             } catch (e: Exception) {
-                VoiceHub.setWakeStatus("Android wouldn't start the microphone service: ${e.message}")
+                VoiceHub.postWakeStatus("Android wouldn't start the microphone service: ${e.message}")
                 VoiceHub.wakeStoppedByUser(); stopSelf(); return START_NOT_STICKY
             }
         }
